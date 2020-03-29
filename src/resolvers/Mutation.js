@@ -10,6 +10,20 @@ const Mutations = {
     );
 
     return item;
+  },
+  async updateItem(_, args, ctx, info) {
+    const updates = { ...args };
+    delete updates.id;
+
+    const item = await ctx.db.mutation.updateItem(
+      {
+        data: updates,
+        where: { id: args.id }
+      },
+      info
+    );
+
+    return item;
   }
 };
 
