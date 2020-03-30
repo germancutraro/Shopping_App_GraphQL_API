@@ -24,6 +24,14 @@ const Mutations = {
     );
 
     return item;
+  },
+
+  async deleteItem(_, args, ctx, info) {
+    const where = { id: args.id };
+    // exist item?
+    const item = await ctx.db.query.item({ where }, info);
+    // TODO user permission
+    if (item) return await ctx.db.mutation.deleteItem({ where }, info);
   }
 };
 
