@@ -57,6 +57,24 @@ const Mutations = {
       maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year
     });
     return user;
+  },
+
+  async signIn(_, { email, password }, ctx, info) {
+    const user = await ctx.db.query.user(
+      { where: { email: email.toLowerCase() } },
+      info
+    );
+    if (!user) throw new Error('Invalid Credentials');
+
+    const valid = await bcrypt.compare(password, user.password);
+    if (!valid) throw new Error('Invalid Password!');
+    const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
+    // set cookie
+    ctx.response.cookie('token', token, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year
+    });
+    return user;
   }
 };
 
