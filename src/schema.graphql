@@ -1,5 +1,9 @@
 # import * from './generated/prisma.graphql';
 
+type Success {
+  success: Boolean
+}
+
 type Query {
   items: [Item]
   item(where: ItemWhereUniqueInput!): Item
@@ -21,4 +25,5 @@ type Mutation {
 
   signUp(email: String!, password: String!, name: String!): User!
   signIn(email: String!, password: String!): User!
+  signOut: Success!
 }

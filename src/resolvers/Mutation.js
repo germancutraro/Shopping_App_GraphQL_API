@@ -75,6 +75,11 @@ const Mutations = {
       maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year
     });
     return user;
+  },
+
+  async signOut(_, args, ctx, info) {
+    ctx.response.clearCookie('token');
+    return { success: true };
   }
 };
 
